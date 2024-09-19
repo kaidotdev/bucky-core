@@ -66,10 +66,10 @@ jobs:
     steps:
       - checkout
       - type: cache-restore
-        key: syntax-check-{{ checksum "Gemfile.lock" }}
-      - run: bundle install --path vendor/bundle --quiet
+        key: syntax-check-{{ .Environment.CIRCLE_SHA1 }}
+      - run: bundle install --path vendor/bundle
       - type: cache-save
-        key: syntax-check-{{ checksum "Gemfile.lock" }}
+        key: syntax-check-{{ .Environment.CIRCLE_SHA1 }}
         paths:
           - vendor/bundle
       - run: bundle exec rubocop -f html --out report.html
