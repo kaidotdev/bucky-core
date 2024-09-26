@@ -43,7 +43,7 @@ Style/MissingRespondToMissing:
 # Offense count: 229
 # Configuration parameters: AllowHeredoc, AllowURI, URISchemes, IgnoreCopDirectives, IgnoredPatterns.
 # URISchemes: http, https
-Metrics/Layout/LineLength:
+Layout/LineLength:
   Max: 225
 
 Style/ExpandPathArguments:
