@@ -26,7 +26,7 @@ Metrics/BlockLength:
     - 'lib/bucky/core/database/test_data_operator.rb'
     - 'lib/bucky/core/test_core/test_class_generator.rb'
 
-Naming/ClassVars:
+Style/ClassVars:
   Exclude:
     - 'lib/bucky/test_equipment/selenium_handler/webdriver_handler.rb'
     - 'lib/bucky/test_equipment/test_case/abst_test_case.rb'
@@ -37,17 +37,17 @@ Metrics/CyclomaticComplexity:
   Enabled: false
 
 # Allow missing top-level documentation comment of class
-Lint/Documentation:
+Style/Documentation:
   Enabled: false
 
-Layout/FrozenStringLiteralComment:
+Style/FrozenStringLiteralComment:
   EnforcedStyle: always
 
-Naming/GlobalVars:
+Style/GlobalVars:
   AllowedVariables: [$bucky_home_dir, $debug, $job_id, $round]
 
 # Not allow using '->' for multi-line lambdas.
-Naming/Lambda:
+Style/Lambda:
   Enabled: false
 
 Layout/LineLength:
@@ -65,7 +65,7 @@ Metrics/ModuleLength:
   Exclude:
     - 'spec/**/*.rb'
 
-PerceivedComplexity:
+Metrics/PerceivedComplexity:
   Enabled: false
 
 Lint/UselessAssignment:
