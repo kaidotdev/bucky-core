@@ -37,4 +37,4 @@ vendor/
 .rvmrc
 
 .DS_Store
-# .sample
+.sample/*
