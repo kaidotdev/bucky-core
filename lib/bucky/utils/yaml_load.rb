@@ -14,7 +14,7 @@ module Bucky
           ERB.new(File.read(file)).result,
           permitted_classes: [Array, Hash, String, Numeric, Symbol, TrueClass, FalseClass],
           aliases: true
-          )
+        )
       end
 
       # Sort files to hierarchy

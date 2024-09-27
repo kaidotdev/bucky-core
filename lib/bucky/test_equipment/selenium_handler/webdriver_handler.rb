@@ -20,7 +20,6 @@ module Bucky
           driver.manage.window.resize_to(1280, 1000)
           driver.manage.timeouts.implicit_wait = @@config[:find_element_timeout]
           driver
-
         rescue StandardError => e
           Bucky::Core::Exception::BuckyException.handle(e)
         end
@@ -30,7 +29,7 @@ module Bucky
 
         # @param  [String] device_type e.g.) sp, pc, tablet
         # @return [Hash] driver_args
-        def create_driver_args(device_type)
+        def create_driver_args(_device_type)
           {
             url: format('http://%<ip>s:%<port>s/wd/hub', ip: @@config[:selenium_ip], port: @@config[:selenium_port]),
             http_client: create_http_client
@@ -58,8 +57,8 @@ module Bucky
 
         def set_chrome_option(device_type)
           options = Selenium::WebDriver::Options.chrome
-          if device_type == 'pc' #todo spに修正する
-            device_type = "sp_device_name".to_sym #todo #{device_type}_device_nameに修正する
+          if device_type == 'pc' # TODO: spに修正する
+            device_type = 'sp_device_name'.to_sym # TODO: #{device_type}_device_nameに修正する
             options.add_emulation(device_name: @@config[:device_name_on_chrome][@@config[device_type]])
           end
           options.add_argument("--user-agent=#{@@config[:user_agent]}") if @@config[:user_agent]
