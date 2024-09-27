@@ -72,7 +72,7 @@ jobs:
         key: syntax-check-{{ .Environment.CIRCLE_SHA1 }}
         paths:
           - vendor/bundle
-      - run: bundle exec rubocop -f html --out report.html
+      - run: git diff --name-only origin/main...HEAD -- '*.rb' | xargs bundle exec rubocop -f html --out report.html
       - store_artifacts:
           path: report.html
   publish_to_rubygems:
