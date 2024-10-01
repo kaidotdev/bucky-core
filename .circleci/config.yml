@@ -22,7 +22,7 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-          key: syntax-check-{{ .Environment.CIRCLE_SHA1 }}
+          key: docker-{{ .Environment.CIRCLE_SHA1 }}
       - run:
           command: docker load -q -i ~/caches/images.tar
       - run:
