@@ -16,7 +16,12 @@ module Bucky
         # Connect to database
         # @param [String] db_name database name
         def connect(db_name = 'bucky_test')
-          @con = Sequel.connect(@test_db_config[db_name.to_sym], encoding: 'utf8')
+          if $debug
+            @con = @test_db_config[db_name.to_sym]
+          else
+            @con = Sequel.connect(@test_db_config[db_name.to_sym], encoding: 'utf8')
+          end
+
         end
 
         # Disconnect to database
