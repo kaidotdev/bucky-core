@@ -16,11 +16,11 @@ module Bucky
         @data = {}
         @resources = []
         @default_config_dir = File.expand_path('../../../template/new/config', __dir__)
-
         # Read from a file of shallow hierarchy, then overwrite it if there is same key in deep hierarchy
         file_sort_hierarchy(@@dir).each do |file|
           file_name = file.split('/').last
           default_config_file = @default_config_dir + '/' + file_name
+          # p "@default_config_file: #{@default_config_file}"
           data = load_yaml(file)
           next if data.empty?
 

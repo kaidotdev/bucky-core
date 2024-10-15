@@ -14,9 +14,16 @@ module Bucky
         private
 
         def add_test_procedure(procedures)
-          procedures.each.with_index(1) do |procedure, step_number|
+# procedures は:
+  # [{:proc=>\"open index\", :exec=>{:operate=>\"go\", :url=>\"http://bucky.net\"}}, {:proc=>\"open index\",
+  # :exec=>{:operate=>\"click\", :page=>\"index\", :part=>\"link\"}}, {:proc=>\"check title\",
+  # :exec=>{:verify=>\"assert_title\", :expect=>\"Test Page\"}}]"
+            procedures.each.with_index(1) do |procedure, step_number|
+# "procedure の中身は: {:proc=>\"open index\", :exec=>{:operate=>\"go\", :url=>\"http://bucky.net\"}}"
+# step_number の中身は: 1"
             procedure[:proc] ||= ''.dup
             puts "  #{step_number}:#{procedure[:proc]}"
+# "methodは operate"
             method = procedure[:exec].key?(:operate) ? :operate : :verify
             send(method, exec: procedure[:exec], step_number: step_number, proc_name: procedure[:proc])
           end

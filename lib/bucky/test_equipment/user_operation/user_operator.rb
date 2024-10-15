@@ -11,6 +11,12 @@ module Bucky
         include Bucky::Utils::BuckyLogger
 
         def initialize(args)
+# "argsの中身は{:app=>\"service_a\", :device=>\"pc\", :driver=>nil,
+  # :pages=>#<Bucky::TestEquipment::PageObject::Pages:0x0000ffffa3234008>}"
+
+# "@operation_helperの中身は:
+#<Bucky::TestEquipment::UserOperation::UserOperationHelper:0x0000ffff870abb30 @app=\"service_a\",
+# @device=\"pc\", @driver=nil, @pages=#<Bucky::TestEquipment::PageObject::Pages:0x0000ffff86eb40e8>>"
           @operation_helper = Bucky::TestEquipment::UserOperation::UserOperationHelper.new(args)
           @pages = args[:pages]
         end
@@ -20,6 +26,7 @@ module Bucky
         # @param [String] test_case_name
         # @param [Hash] args
         def method_missing(operation, test_case_name, **args)
+# "operationはgo, test_case_nameはtest_pc_e2e_1, argsは{:exec=>{:operate=>\"go\", :url=>\"http://bucky.net\"}, :step_number=>1, :proc_name=>\"open index\"}
           @operation = operation
           @test_case_name = test_case_name
           Bucky::Utils::BuckyLogger.write(test_case_name, args[:exec])

@@ -15,10 +15,14 @@ module Bucky
           @@config = Bucky::Utils::Config.instance
           driver_args = create_driver_args(device_type)
           # Correctly create an options object
+# @options={:args=>[\"--user-agent=E2ETest (X11; Linux x86_64)\", \"--headless\"],
+# :prefs=>{}, :emulation=>{}, :local_state=>{}, :exclude_switches=>[], :perf_logging_prefs=>{},
+# :window_types=>[], :browser_name=>\"chrome\"}, @profile=nil, @logging_prefs={}, @encoded_extensions=[],
+# @extensions=[]>"
           options = generate_desire_caps(device_type)
-          driver = Selenium::WebDriver.for :remote, url: driver_args[:url], capabilities: options, http_client: driver_args[:http_client]
-          driver.manage.window.resize_to(1280, 1000)
-          driver.manage.timeouts.implicit_wait = @@config[:find_element_timeout]
+          driver = Selenium::WebDriver.for :remote, url: driver_args[:url], options: options, http_client: driver_args[:http_client]
+          # p driver.manage.window.resize_to(1920, 1080)
+          # driver.manage.timeouts.implicit_wait = @@config[:find_element_timeout]
           driver
         rescue StandardError => e
           Bucky::Core::Exception::BuckyException.handle(e)
@@ -57,13 +61,13 @@ module Bucky
 
         def set_chrome_option(device_type)
           options = Selenium::WebDriver::Options.chrome
-          if device_type == 'pc' # TODO: spに修正する
-            device_type = 'sp_device_name'.to_sym # TODO: #{device_type}_device_nameに修正する
+          if device_type == 'sp'
+            device_type = "#{device_type}_device_name".to_sym
             options.add_emulation(device_name: @@config[:device_name_on_chrome][@@config[device_type]])
           end
           options.add_argument("--user-agent=#{@@config[:user_agent]}") if @@config[:user_agent]
           options.add_argument('--headless') if @@config[:headless]
-          @@config[:chromedriver_flags].each do |flag|
+          @@config[:chromedriver_flags]&.each do |flag|
             options.add_argument(flag)
           end
           options
