@@ -14,6 +14,7 @@ module Bucky
         using StringColorize
 
         def initialize(driver, pages, test_case_name)
+# "変数はdriver: #<Selenium::WebDriver::Remote::Driver:0x..f8426cf30c6142870 browser=:chrome>, pages: #<Bucky::TestEquipment::PageObject::Pages:0x0000ffffa6105ee0>, test_case_name: test_pc_e2e_1"
           @driver = driver
           @pages = pages
           @evidence = Bucky::TestEquipment::Evidence::E2eEvidence.new(driver: driver, test_case: test_case_name)
@@ -26,6 +27,7 @@ module Bucky
         # Check whether title of web page matches expected value
         # @param [Hash]
         def assert_title(**args)
+#！ ここに来てない
           Bucky::Utils::BuckyLogger.write('assert_title', args)
           verify_rescue { assert_equal(args[:expect]&.to_s, @driver.title, 'Not Expected Title.') }
         end

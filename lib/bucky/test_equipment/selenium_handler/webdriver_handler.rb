@@ -15,14 +15,10 @@ module Bucky
           @@config = Bucky::Utils::Config.instance
           driver_args = create_driver_args(device_type)
           # Correctly create an options object
-# @options={:args=>[\"--user-agent=E2ETest (X11; Linux x86_64)\", \"--headless\"],
-# :prefs=>{}, :emulation=>{}, :local_state=>{}, :exclude_switches=>[], :perf_logging_prefs=>{},
-# :window_types=>[], :browser_name=>\"chrome\"}, @profile=nil, @logging_prefs={}, @encoded_extensions=[],
-# @extensions=[]>"
           options = generate_desire_caps(device_type)
           driver = Selenium::WebDriver.for :remote, url: driver_args[:url], options: options, http_client: driver_args[:http_client]
-          # p driver.manage.window.resize_to(1920, 1080)
-          # driver.manage.timeouts.implicit_wait = @@config[:find_element_timeout]
+          # driver.manage.window.resize_to(1920, 1080) #!ここコメントアウトしたら少し進む。でもcheck_titleでエラー
+          driver.manage.timeouts.implicit_wait = @@config[:find_element_timeout]
           driver
         rescue StandardError => e
           Bucky::Core::Exception::BuckyException.handle(e)
@@ -65,11 +61,18 @@ module Bucky
             device_type = "#{device_type}_device_name".to_sym
             options.add_emulation(device_name: @@config[:device_name_on_chrome][@@config[device_type]])
           end
+# "options: #<Selenium::WebDriver::Chrome::Options:0x0000ffffb67f5ba0 @options={
+# :args=>[], :prefs=>{}, :emulation=>{}, :local_state=>{}, :exclude_switches=>[], :perf_logging_prefs=>{}, :window_types=>[], :browser_name=>\"chrome\"},
+# @profile=nil, @logging_prefs={}, @encoded_extensions=[], @extensions=[]>"
           options.add_argument("--user-agent=#{@@config[:user_agent]}") if @@config[:user_agent]
           options.add_argument('--headless') if @@config[:headless]
+# "options: #<Selenium::WebDriver::Chrome::Options:0x0000ffffb67f5ba0 @options={
+# :args=>[\"--user-agent=E2ETest (X11; Linux x86_64)\", \"--headless\"], :prefs=>{}, :emulation=>{}, :local_state=>{}, :exclude_switches=>[], :perf_logging_prefs=>{}, :window_types=>[], :browser_name=>\"chrome\"},
+# @profile=nil, @logging_prefs={}, @encoded_extensions=[], @extensions=[]>"
           @@config[:chromedriver_flags]&.each do |flag|
             options.add_argument(flag)
           end
+          p "options: #{options}"
           options
         end
       end
